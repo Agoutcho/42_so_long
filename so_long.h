@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/10 21:07:41 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:56:28 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@
 
 #define KEY_ESC 53
 
-#define X 640
-#define Y ((int)(X/(16/9.0)))
+#define X 672
+#define YW ((int)((X)/(16/9.0) - 25))
+#define Y(PARAM) ((int)((PARAM)/(16/9.0)))
 
 typedef struct s_player {
     void *img_mario;
@@ -41,8 +42,15 @@ typedef struct s_player {
 }              t_player;
 
 typedef struct s_col {
-    void *img_col;
     int col_counter;
+    int *xpos;
+    int *ypos;
+    void *img_col1;
+    void *img_col2;
+    void *img_col3;
+    void *img_col4;
+    void *img_col5;
+    void *img_col6;
 }              t_col;
 
 typedef struct s_struct {
@@ -52,6 +60,14 @@ typedef struct s_struct {
     void *img_end1;
     void *img_end2;
     void *img_end3;
+    void *img_end4;
+    void *img_end;
+    void *img_font;
+    void *img_col;
+    time_t time1;
+    time_t time2;
+    int finished;
+    int anim_counter;
     t_player player;
     t_col col;
 }              t_struct;
@@ -59,6 +75,6 @@ typedef struct s_struct {
 int destroy_win(t_struct *mlx);
 void change(t_struct *mlx);
 void init(t_struct *mlx);
-void finished(t_struct *mlx);
+int render_map(t_struct *mlx);
 
 #endif
