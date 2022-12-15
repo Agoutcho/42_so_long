@@ -84,7 +84,7 @@ char **fill_map(int fd, char **map, int x_counter, int y_counter)
     int i;
 
     i = 1;
-    ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
+    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
     map = (char **)malloc (sizeof(char *) * y_counter + 1);
     if (!map)
     {
@@ -92,7 +92,7 @@ char **fill_map(int fd, char **map, int x_counter, int y_counter)
         exit (1);
     }
     map[0] = get_next_line(fd);
-    ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map[i]);
+    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map[i]);
     
     while (i < y_counter)
     {
@@ -103,10 +103,10 @@ char **fill_map(int fd, char **map, int x_counter, int y_counter)
             exit (1);
         }
         i++;
-        ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map[i]);
+        // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map[i]);
     }
     map[y_counter] = 0;
-    ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
+    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
     return (map);
 }
 
@@ -124,7 +124,6 @@ void check_flag(int *flag_E, int *flag_P, int *flag_C, char c, char **map)
 
 void check_if_map_ok(char **map, int x_counter, int y_counter)
 {
-    ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     int     i;
     int     j;
     int     flag_E;
@@ -205,8 +204,7 @@ void check_if_wall_ok(char **map, int x_counter, int y_counter)
     }
 }
 
-
-void check_if_playable(char **map, int count_col, int x_counter, int y_counter)
+void check_if_playable(char **map, int count_col, int flag_E, int x_counter, int y_counter)
 {
     check_if_wall_ok(map, x_counter, y_counter);
 }
@@ -233,19 +231,19 @@ int main(int argc, char **argv)
         ft_printf("Error\nWrong size, map should be a rectangle.\n");
 		exit (1);
     }
-    ft_printf("x_counter : %d\ny_counter : %d\n",x_counter, y_counter);
+    // ft_printf("x_counter : %d\ny_counter : %d\n",x_counter, y_counter);
     close (fd);
     fd = open (argv[1], O_RDONLY);
-    ft_printf("open FD:%d\n",fd);
+    // ft_printf("open FD:%d\n",fd);
     map = fill_map(fd, map, x_counter, y_counter);
     close (fd);
-    ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
-    ft_printf("[%s]:[%d] map[1][11]:%c\n",__FUNCTION__ ,__LINE__, map[1][11]);
+    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
+    // ft_printf("[%s]:[%d] map[1][11]:%c\n",__FUNCTION__ ,__LINE__, map[1][11]);
 
     check_if_map_ok(map, x_counter, y_counter);
 
 
-    check_if_playable(map, 0, x_counter, y_counter);
+    check_if_wall_ok(map, x_counter, y_counter);
     ft_printf("\n");
     for(int j = 0; map[j];j++)
     {
@@ -255,7 +253,6 @@ int main(int argc, char **argv)
         }
     }
     ft_printf("\n");
-    // exit(0);
     free_map(map);
     return (0);
 }
