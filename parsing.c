@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/12 21:24:49 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:21:33 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,15 +200,9 @@ void check_if_playable(char **map, int count_col, int flag_E, int x_counter, int
     check_if_wall_ok(map, x_counter, y_counter);
 }
 
-int main(int argc, char **argv)
+void parsing(int argc, char **argv, t_struct *mlx)
 {
     int fd;
-    int readsize;
-    int counterY = 0;
-    char buf[100];
-    int x_counter = 0;
-    int y_counter = 0;
-    char **map;
 
     check_arg_error(argc, argv);
     fd = open (argv[1], O_RDONLY);
@@ -217,33 +211,32 @@ int main(int argc, char **argv)
         ft_printf("Error\nFile \"%s\" not found.\n", argv[1]);
 		exit (1);
     }
-    if (!is_map_size_ok(fd, &x_counter, &y_counter))
+    if (!is_map_size_ok(fd, &mlx->map.size_x, &mlx->map.size_y))
     {
         ft_printf("Error\nWrong size, map should be a rectangle.\n");
 		exit (1);
     }
-    // ft_printf("x_counter : %d\ny_counter : %d\n",x_counter, y_counter);
+    // ft_printf("mlx->map.size_x : %d\nmlx->map.size_y : %d\n",mlx->map.size_x, mlx->map.size_y);
     close (fd);
     fd = open (argv[1], O_RDONLY);
     // ft_printf("open FD:%d\n",fd);
-    map = fill_map(fd, map, x_counter, y_counter);
+    mlx->map.real_map = fill_map(fd, mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
     close (fd);
-    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
-    // ft_printf("[%s]:[%d] map[1][11]:%c\n",__FUNCTION__ ,__LINE__, map[1][11]);
+    // ft_printf("[%s]:[%d] mlx->map.real_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.real_map);
+    // ft_printf("[%s]:[%d] mlx->map.real_map[1][11]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[1][11]);
 
-    check_if_map_ok(map, x_counter, y_counter);
+    check_if_map_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
 
 
-    check_if_wall_ok(map, x_counter, y_counter);
+    check_if_wall_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
     ft_printf("\n");
-    for(int j = 0; map[j];j++)
+    for(int j = 0; mlx->map.real_map[j];j++)
     {
-        for (int i = 0; map[j][i];i++)
+        for (int i = 0; mlx->map.real_map[j][i];i++)
         {
-            ft_printf("%c",map[j][i]);
+            ft_printf("%c",mlx->map.real_map[j][i]);
         }
     }
     ft_printf("\n");
-    free_map(map);
-    return (0);
+    free_map(mlx->map.real_map);
 }

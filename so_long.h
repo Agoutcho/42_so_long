@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/12 20:56:28 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:20:18 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-// #include <mlx.h>
+#include <mlx.h>
 #include "libft/libft.h"
 
 #define ARROW_LEFT 123
@@ -68,11 +68,19 @@ typedef struct s_end {
     void *img_end4;
 }              t_end;
 
+typedef struct s_map {
+    char **real_map;
+    char **little_map;
+    int size_x;
+    int size_y;
+    void *img_wall;
+    void *img_font;
+}              t_map;
+
 typedef struct s_struct {
     void *mlx_ptr;
     void *win_ptr;
-    void *img_wall;
-    void *img_font;
+    
     void *img_end;
     void *img_col;
     time_t time1;
@@ -82,10 +90,11 @@ typedef struct s_struct {
     t_player player;
     t_col col;
     t_end end;
+    t_map map;
 }              t_struct;
 
+void parsing(int argc, char **argv, t_struct *mlx);
 int destroy_win(t_struct *mlx);
-void change(t_struct *mlx);
 void init(t_struct *mlx);
 int render_map(t_struct *mlx);
 
