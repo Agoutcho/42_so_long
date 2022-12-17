@@ -10,17 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
-
 #include "libft/libft.h"
-
-unsigned int sleep(unsigned int seconds);
-
-ssize_t read(int fd, void *buf, size_t count);
+#include "so_long.h"
 
 void free_map(char **map);
 
@@ -28,12 +19,12 @@ void check_arg_error(int argc, char **argv)
 {
     int size;
 
-    size = ft_strlen (argv[1]);
     if (argc != 2)
 	{
         ft_printf("Error\nWrong format, should be \"./so_long [map.ber]\"\n");
 		exit (1);
 	}
+    size = ft_strlen (argv[1]);
 	if (ft_strnstr (argv[1] + (size - 4), ".ber", size + 1) == 0)
 	{
 		ft_printf("Error\nMap has to be a \".ber\" file.\n");

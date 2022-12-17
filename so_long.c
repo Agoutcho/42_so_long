@@ -24,34 +24,34 @@ int key_pressed(int button, t_struct *mlx)
         mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
         exit(0);
     }
-    else if ((button == ARROW_LEFT || button == KEY_A) && mlx->player.xpos - 32 > 0)
-    {        
-        mlx->player.xpos -= 32;
-        printf("mlx->xpos:%d\n",mlx->player.xpos);
+    else if ((button == ARROW_LEFT || button == KEY_A) && mlx->player.x - 32 > 0)
+    {
+        mlx->player.x -= 32;
+        printf("mlx->x:%d\n",mlx->player.x);
         printf("button :%d exit\n",button);
         mlx->player.f_counter++;
         printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_RIGHT || button == KEY_D) && (mlx->player.xpos + 64) < X)
+    else if ((button == ARROW_RIGHT || button == KEY_D) && (mlx->player.x + 64) < X)
     {
-        mlx->player.xpos += 32;
-        printf("mlx->xpos:%d\n",mlx->player.xpos);
+        mlx->player.x += 32;
+        printf("mlx->x:%d\n",mlx->player.x);
         printf("button :%d exit\n", button);
         mlx->player.f_counter++;
         printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_DOWN || button == KEY_S) && (mlx->player.ypos + 64 + (32 * (int)(16/9.0)) < Y(X)))
+    else if ((button == ARROW_DOWN || button == KEY_S) && (mlx->player.y + 64 + (32 * (int)(16/9.0)) < Y(X)))
     {
-        mlx->player.ypos += 32;
-        printf("mlx->ypos:%d\n",mlx->player.ypos);
+        mlx->player.y += 32;
+        printf("mlx->y:%d\n",mlx->player.y);
         printf("button :%d exit\n", button);
         mlx->player.f_counter++;
         printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_UP || button == KEY_W) && mlx->player.ypos - 32 > 0)
+    else if ((button == ARROW_UP || button == KEY_W) && mlx->player.y - 32 > 0)
     {
-        mlx->player.ypos -= 32;
-        printf("mlx->ypos:%d\n",mlx->player.ypos);
+        mlx->player.y -= 32;
+        printf("mlx->y:%d\n",mlx->player.y);
         printf("button :%d exit\n", button);
         mlx->player.f_counter++;
         printf("%d\n", mlx->player.f_counter);
@@ -179,7 +179,7 @@ int render_map(t_struct *mlx)
     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 160, (Y(160) - (Y(160)) % 32));
     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 352, (Y(352) - (Y(352)) % 32));
     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 64, (Y(296) - (Y(296)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, mlx->player.xpos, mlx->player.ypos);
+    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, mlx->player.x, mlx->player.y);
     sprintf(temp, "%d", mlx->player.f_counter );
     mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 16, 20, 0x00FFFFFF, temp);
     return (0);
@@ -207,8 +207,8 @@ int main(int argc, char **argv)
     
     t_struct mlx;
     int img_width, img_height;
-    mlx.player.xpos = 32;
-    mlx.player.ypos = 32;
+    mlx.player.x = 32;
+    mlx.player.y = 32;
 
     mlx.mlx_ptr = mlx_init();
     mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, X, YW, "Test");
@@ -236,7 +236,7 @@ int main(int argc, char **argv)
     printf("real X:%d\n",xwin);
     printf("real Y:%d\n",ywin);
     init(&mlx);
-    mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.player.img_mario, mlx.player.xpos, mlx.player.ypos);
+    mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.player.img_mario, mlx.player.x, mlx.player.y);
     // mlx_key_hook(mlx.win_ptr,key_pressed, &mlx);
     mlx_loop_hook(mlx.mlx_ptr, anim, &mlx);
     mlx_hook(mlx.win_ptr, 3, (1L<<1), key_pressed, &mlx);

@@ -16,7 +16,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <mlx.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+// #include <mlx.h>
+#include "libft/libft.h"
 
 #define ARROW_LEFT 123
 #define ARROW_RIGHT 124
@@ -36,15 +40,16 @@
 
 typedef struct s_player {
     void *img_mario;
-    int xpos;
-    int ypos;
+    int flag_P;
+    int x;
+    int y;
     int f_counter;
 }              t_player;
 
 typedef struct s_col {
-    int col_counter;
-    int *xpos;
-    int *ypos;
+    int flag_C;
+    int *x;
+    int *y;
     void *img_col1;
     void *img_col2;
     void *img_col3;
@@ -53,16 +58,22 @@ typedef struct s_col {
     void *img_col6;
 }              t_col;
 
-typedef struct s_struct {
-    void *mlx_ptr;
-    void *win_ptr;
-    void *img_wall;
+typedef struct s_end {
+    int flag_E;
+    int x;
+    int y;
     void *img_end1;
     void *img_end2;
     void *img_end3;
     void *img_end4;
-    void *img_end;
+}              t_end;
+
+typedef struct s_struct {
+    void *mlx_ptr;
+    void *win_ptr;
+    void *img_wall;
     void *img_font;
+    void *img_end;
     void *img_col;
     time_t time1;
     time_t time2;
@@ -70,6 +81,7 @@ typedef struct s_struct {
     int anim_counter;
     t_player player;
     t_col col;
+    t_end end;
 }              t_struct;
 
 int destroy_win(t_struct *mlx);
