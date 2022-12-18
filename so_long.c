@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/18 04:46:12 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/18 05:11:13 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,29 @@ int render_map(t_struct *mlx)
     return (0);
 }
 
+void fill_min_max(t_struct *mlx)
+{
+    int px;
+    int py;
+
+    px = mlx->player.x;
+    py = mlx->player.y;
+    if (px - 0 > px - mlx->win_size_x)
+        mlx->map.min_x = px - mlx->win_size_x;
+    else 
+        mlx->map.min_x = 0;
+    if (py - 0 > py - mlx->win_size_y)
+        mlx->map.min_y = py - mlx->win_size_y;
+    else 
+        mlx->map.min_y = 0;
+    ft_printf("[%s]:[%d] px:%d\n",__FUNCTION__ ,__LINE__, px);
+    ft_printf("[%s]:[%d] py:%d\n",__FUNCTION__ ,__LINE__, py);
+    ft_printf("[%s]:[%d] mlx->win_size_x:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_x);
+    ft_printf("[%s]:[%d] mlx->win_size_y:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_y);
+    ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
+    ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
+}
+
 void fill_pos(t_struct *mlx, char c, int i, int j)
 {
     int col_index;
@@ -310,15 +333,15 @@ void init_win(t_struct *mlx)
     int sy;
 
     if (mlx->map.size_x * 32 < X)
-        mlx->win_size_x = mlx->map.size_x * 32;
+        mlx->win_size_x = mlx->map.size_x;
     else 
         mlx->win_size_x = X;
     if (mlx->map.size_y * 32 < YW)
-        mlx->win_size_y = mlx->map.size_y * 32;
+        mlx->win_size_y = mlx->map.size_y;
     else 
         mlx->win_size_y = YW;
-    sx = mlx->win_size_x ;
-    sy = mlx->win_size_y;
+    sx = mlx->win_size_x * 32;
+    sy = mlx->win_size_y * 32;
     mlx->mlx_ptr = mlx_init();
     mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, sx, sy, "Grand Theft Auto");
     path = "Mario/wall1.png";
@@ -331,8 +354,26 @@ void init_win(t_struct *mlx)
 
 void init_map(t_struct *mlx)
 {
-    if (mlx->map.size_x * 32 < X)
-        mlx->win_size_x = mlx->map.size_x;
+    int i;
+    int sy;
+
+    i = 1;
+    sy = mlx->win_size_y / 32;
+    // ft_printf("[%s]:[%d] map:%p\n",__FUNCTION__ ,__LINE__, map);
+    mlx->map.little_map = (char **)malloc (sizeof(char *) * sy + 1);
+    if (!mlx->map.little_map)
+        exit (1);
+    // ft_printf("[%s]:[%d] mlx->map.little_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.little_map[i]);
+    
+    while (i < sy)
+    {
+        if (!mlx->map.little_map[i])
+            exit (1);
+        i++;
+        // ft_printf("[%s]:[%d] mlx->map.little_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.little_map[i]);
+    }
+    mlx->map.little_map[sy] = 0;
+    // ft_printf("[%s]:[%d] mlx->map.little_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.little_map);
 }
 
 void init(int argc, char **argv, t_struct *mlx)
@@ -353,6 +394,7 @@ void init(int argc, char **argv, t_struct *mlx)
     init_col(mlx);
     // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     find_pos(mlx);
+    fill_min_max(mlx);
 }
 
 int main(int argc, char **argv)

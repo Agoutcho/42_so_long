@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/18 04:36:48 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/18 05:20:12 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 #define KEY_ESC 53
 
-#define X 672
+#define X 704
 #define YW (int)(384)
 #define Y(PARAM) ((int)((PARAM)/(16/9.0)))
 
@@ -72,6 +72,10 @@ typedef struct s_end {
 typedef struct s_map {
     char **real_map;
     char **little_map;
+    int max_x;
+    int max_y;
+    int min_x;
+    int min_y;
     int size_x;
     int size_y;
     void *img_wall;
