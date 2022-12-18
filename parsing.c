@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/17 19:21:33 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/18 03:44:50 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "so_long.h"
 
 void free_map(char **map);
+
+void error_not_rectangle()
+{
+    ft_printf("Error\nWrong size, map should be a rectangle.\n");
+	exit (1);
+}
 
 void check_arg_error(int argc, char **argv)
 {
@@ -41,6 +47,15 @@ void char_error(char **map)
     exit(1);
 }
 
+int is_a_rectangle(int *x_counter, int *y_counter)
+{
+    // ft_printf("[%s]:[%d] x_counter:%d\n",__FUNCTION__ ,__LINE__, *x_counter);
+    // ft_printf("[%s]:[%d] y_counter:%d\n",__FUNCTION__ ,__LINE__, *y_counter);
+    if (*x_counter != *y_counter)
+        return (1);
+    return (0);
+}
+
 int is_map_size_ok(int fd, int *x_counter, int *y_counter)
 {
     int     readsize;
@@ -53,6 +68,8 @@ int is_map_size_ok(int fd, int *x_counter, int *y_counter)
     {
         readsize = read(fd, buf, 1);
         (*x_counter)++;
+        // ft_printf("[%s]:[%d] x_counter:%d\n",__FUNCTION__ ,__LINE__, *x_counter);
+        // ft_printf("[%s]:[%d] x_previous:%d\n",__FUNCTION__ ,__LINE__, x_previous);
         if (buf[0] == '\n')
         {
             (*y_counter)++;
@@ -67,7 +84,7 @@ int is_map_size_ok(int fd, int *x_counter, int *y_counter)
         return (0);
     (*y_counter)++;
     (*x_counter)--;
-    return (1);
+    return (is_a_rectangle(x_counter, y_counter));
 }
 
 char **fill_map(int fd, char **map, int x_counter, int y_counter)
@@ -101,32 +118,28 @@ char **fill_map(int fd, char **map, int x_counter, int y_counter)
     return (map);
 }
 
-void check_flag(int *flag_E, int *flag_P, int *flag_C, char c, char **map)
+void check_flag(t_struct *mlx, char c)
 {
+    // ft_printf("[%s]:[%d] c:%c\n",__FUNCTION__ ,__LINE__, c);
+    // ft_printf("[%s]:[%d] mlx->col.flag_C:%d\n",__FUNCTION__ ,__LINE__, mlx->col.flag_C);
     if (c == '1'|| c == '0')
         return;
     else if (c == 'C')
-        (*flag_C)++;
+        (mlx->col.flag_c)++;
     else if (c == 'P')
-        (*flag_P)++;
+        (mlx->player.flag_p)++;
     else if (c == 'E')
-        (*flag_E)++;
+        (mlx->end.flag_e)++;
 }
 
-void check_if_map_ok(char **map, int x_counter, int y_counter)
+void check_if_map_ok(t_struct *mlx, char **map, int x_counter, int y_counter)
 {
     int     i;
     int     j;
-    int     flag_E;
-    int     flag_P;
-    int     flag_C;
     char    c;
 
     i = 0;
     j = 0;
-    flag_E = 0;
-    flag_P = 0;
-    flag_C = 0;
     while (j < y_counter)
     {
         while (i < x_counter)
@@ -135,13 +148,13 @@ void check_if_map_ok(char **map, int x_counter, int y_counter)
             if (c != '1' && c != '0' && c != 'P' && c != 'E' && c != 'C')
                 char_error(map);
             else 
-                check_flag(&flag_E, &flag_P, &flag_C, c, map);
+                check_flag(mlx, c);
             i++;
         }
         j++;
         i = 0;
     }
-    if (flag_E != 1 || flag_P != 1 || flag_C < 1 )
+    if (mlx->end.flag_e != 1 || mlx->player.flag_p != 1 || mlx->col.flag_c < 1)
         char_error(map);
 }
 
@@ -212,10 +225,7 @@ void parsing(int argc, char **argv, t_struct *mlx)
 		exit (1);
     }
     if (!is_map_size_ok(fd, &mlx->map.size_x, &mlx->map.size_y))
-    {
-        ft_printf("Error\nWrong size, map should be a rectangle.\n");
-		exit (1);
-    }
+        error_not_rectangle();
     // ft_printf("mlx->map.size_x : %d\nmlx->map.size_y : %d\n",mlx->map.size_x, mlx->map.size_y);
     close (fd);
     fd = open (argv[1], O_RDONLY);
@@ -225,7 +235,7 @@ void parsing(int argc, char **argv, t_struct *mlx)
     // ft_printf("[%s]:[%d] mlx->map.real_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.real_map);
     // ft_printf("[%s]:[%d] mlx->map.real_map[1][11]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[1][11]);
 
-    check_if_map_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
+    check_if_map_ok(mlx, mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
 
 
     check_if_wall_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
@@ -238,5 +248,4 @@ void parsing(int argc, char **argv, t_struct *mlx)
         }
     }
     ft_printf("\n");
-    free_map(mlx->map.real_map);
 }

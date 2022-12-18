@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/17 19:20:18 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/18 04:36:48 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@
 #define KEY_ESC 53
 
 #define X 672
-#define YW ((int)((X)/(16/9.0) - 25))
+#define YW (int)(384)
 #define Y(PARAM) ((int)((PARAM)/(16/9.0)))
 
 typedef struct s_player {
     void *img_mario;
-    int flag_P;
+    int flag_p;
     int x;
     int y;
     int f_counter;
 }              t_player;
 
 typedef struct s_col {
-    int flag_C;
+    int flag_c;
+    int flag_c_counter;
     int *x;
     int *y;
     void *img_col1;
@@ -59,7 +60,7 @@ typedef struct s_col {
 }              t_col;
 
 typedef struct s_end {
-    int flag_E;
+    int flag_e;
     int x;
     int y;
     void *img_end1;
@@ -80,11 +81,10 @@ typedef struct s_map {
 typedef struct s_struct {
     void *mlx_ptr;
     void *win_ptr;
-    
+    int win_size_x;
+    int win_size_y;
     void *img_end;
     void *img_col;
-    time_t time1;
-    time_t time2;
     int finished;
     int anim_counter;
     t_player player;
@@ -95,7 +95,9 @@ typedef struct s_struct {
 
 void parsing(int argc, char **argv, t_struct *mlx);
 int destroy_win(t_struct *mlx);
-void init(t_struct *mlx);
+void init(int argc, char **argv, t_struct *mlx);
+void inito(t_struct *mlx);
 int render_map(t_struct *mlx);
+void free_map(char **map);
 
 #endif
