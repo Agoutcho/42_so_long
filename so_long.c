@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 18:18:42 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 18:58:05 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int key_pressed(int button, t_struct *mlx)
 {
     static int i = 0;
     ft_printf("button_pressed:%d\n",button);
+    ft_printf("[%s]:[%d] mlx->map.real_map[mlx->player.y][mlx->player.x]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[mlx->player.y][mlx->player.x]);
     if (button == KEY_ESC)
     {
         mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
@@ -24,36 +25,84 @@ int key_pressed(int button, t_struct *mlx)
         mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
         exit(0);
     }
-    else if ((button == ARROW_LEFT || button == KEY_A) && mlx->player.x - 32 > 0)
+    else if ((button == ARROW_LEFT || button == KEY_A))
     {
-        mlx->player.x -= 32;
+        ft_printf("[%s]:[%d] mlx->map.real_map[mlx->player.y][mlx->player.x - 1]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[mlx->player.y][mlx->player.x - 1]);
+        if (mlx->map.real_map[mlx->player.y][mlx->player.x - 1] == 'E' \
+            && mlx->finished)
+            destroy_win(mlx);
+        if (mlx->map.real_map[mlx->player.y][mlx->player.x - 1] != '1' \
+            && mlx->map.real_map[mlx->player.y][mlx->player.x - 1] != 'E')
+        {
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
+            mlx->player.x--;
+            if (mlx->map.real_map[mlx->player.y][mlx->player.x] == 'C')
+                mlx->col.flag_c--;
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = 'P';
+            mlx->player.f_counter++;
+        }
         ft_printf("mlx->x:%d\n",mlx->player.x);
         ft_printf("button :%d exit\n",button);
-        mlx->player.f_counter++;
         ft_printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_RIGHT || button == KEY_D) && (mlx->player.x + 64) < X)
+    else if ((button == ARROW_RIGHT || button == KEY_D))
     {
-        mlx->player.x += 32;
+        ft_printf("[%s]:[%d] mlx->map.real_map[mlx->player.y][mlx->player.x + 1]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[mlx->player.y][mlx->player.x + 1]);
+        if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] == 'E' \
+            && mlx->finished)
+            destroy_win(mlx);
+        else if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != '1' \
+            && mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != 'E')
+        {
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
+            mlx->player.x++;
+            if (mlx->map.real_map[mlx->player.y][mlx->player.x] == 'C')
+                mlx->col.flag_c--;
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = 'P';
+            mlx->player.f_counter++;
+        }
         ft_printf("mlx->x:%d\n",mlx->player.x);
         ft_printf("button :%d exit\n", button);
-        mlx->player.f_counter++;
         ft_printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_DOWN || button == KEY_S) && (mlx->player.y + 64 + (32 * (int)(16/9.0)) < Y(X)))
+    else if ((button == ARROW_DOWN || button == KEY_S))
     {
-        mlx->player.y += 32;
+        ft_printf("[%s]:[%d] mlx->map.real_map[mlx->player.y + 1][mlx->player.x]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[mlx->player.y + 1][mlx->player.x]);
+        if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] == 'E' \
+            && mlx->finished)
+            destroy_win(mlx);
+        else if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != '1' \
+            && mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != 'E')
+        {
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
+            mlx->player.y++;
+            if (mlx->map.real_map[mlx->player.y][mlx->player.x] == 'C')
+                mlx->col.flag_c--;
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = 'P';
+            mlx->player.f_counter++;
+        }
         ft_printf("mlx->y:%d\n",mlx->player.y);
         ft_printf("button :%d exit\n", button);
-        mlx->player.f_counter++;
         ft_printf("%d\n", mlx->player.f_counter);
     }
-    else if ((button == ARROW_UP || button == KEY_W) && mlx->player.y - 32 > 0)
+    else if ((button == ARROW_UP || button == KEY_W))
     {
-        mlx->player.y -= 32;
+        ft_printf("[%s]:[%d] mlx->map.real_map[mlx->player.y - 1][mlx->player.x]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[mlx->player.y - 1][mlx->player.x]);
+        if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] == 'E' \
+            && mlx->finished)
+            destroy_win(mlx);
+        else if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != '1' \
+            && mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != 'E')
+        {
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
+            mlx->player.y--;
+            if (mlx->map.real_map[mlx->player.y][mlx->player.x] == 'C')
+                mlx->col.flag_c--;
+            mlx->map.real_map[mlx->player.y][mlx->player.x] = 'P';
+            mlx->player.f_counter++;
+        }
         ft_printf("mlx->y:%d\n",mlx->player.y);
         ft_printf("button :%d exit\n", button);
-        mlx->player.f_counter++;
         ft_printf("%d\n", mlx->player.f_counter);
     }
     else if (button == 35)
@@ -126,7 +175,7 @@ int anim(t_struct *mlx)
     if (mlx->anim_counter == 0 && !mlx->finished)
     {
         mlx->img_col = mlx->col.img_col1;
-        if (!mlx->finished)
+        if (mlx->finished == 0)
             mlx->img_end = mlx->end.img_end1;
         render_map(mlx);
     }
@@ -138,8 +187,11 @@ int anim(t_struct *mlx)
     else if (mlx->anim_counter == 3000)
     {
         mlx->img_col = mlx->col.img_col3;
-        if (!mlx->finished)
+        if (mlx->finished == 1)
+        {
+            mlx->finished = 2;
             mlx->img_end = mlx->end.img_end2;
+        }
         render_map(mlx);
     }
     else if (mlx->anim_counter == 4500)
@@ -155,12 +207,13 @@ int anim(t_struct *mlx)
     else if (mlx->anim_counter == 7500)
     {
         mlx->img_col = mlx->col.img_col6;
-        if (!mlx->finished)
+        if (mlx->finished == 2)
             mlx->img_end = mlx->end.img_end3;
         render_map(mlx);
         mlx->anim_counter = 0;
-        mlx->finished = 1;
     }
+    if (!mlx->col.flag_c && mlx->finished < 2)
+        mlx->finished = 1;
     mlx->anim_counter++;
 
     return (0);
@@ -176,14 +229,18 @@ int render_map(t_struct *mlx)
     char *temp;
     int i;
     int j;
+    int i2;
+    int j2;
     
     fill_min_max(mlx);
+    i2 = 0;
+    j2 = 0;
     i = mlx->map.min_x;
     j = mlx->map.min_y;
-    ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
-    ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
-    ft_printf("[%s]:[%d] mlx->map.max_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_x);
-    ft_printf("[%s]:[%d] mlx->map.max_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_y);
+    // ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
+    // ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
+    // ft_printf("[%s]:[%d] mlx->map.max_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_x);
+    // ft_printf("[%s]:[%d] mlx->map.max_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_y);
     mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_font, 0, 0);
     while (j < mlx->map.max_y)
@@ -192,20 +249,23 @@ int render_map(t_struct *mlx)
         {
             // ft_printf("[%s]:[%d] mlx->map.real_map[j][i]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[j][i]);
             if (mlx->map.real_map[j][i] == '1')
-                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i * 32, j * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i2 * 32, j2 * 32);
             else if (mlx->map.real_map[j][i] == 'P')
-                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, i * 32, j * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, i2 * 32, j2 * 32);
             else if (mlx->map.real_map[j][i] == 'E')
             {
-                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->end.img_end4, i * 32, j * 32);
-                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_end, i * 32, j * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->end.img_end4, i2 * 32, j2 * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_end, i2 * 32, j2 * 32);
             }
             else if (mlx->map.real_map[j][i] == 'C')
-                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, i * 32, j * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, i2 * 32, j2 * 32);
                 i++;
+                i2++;
         }
         j++;
+        j2++;
         i = mlx->map.min_x;
+        i2 = 0;
     }
     temp = ft_itoa(mlx->player.f_counter);
     mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 16, 20, 0x00FFFFFF, temp);
