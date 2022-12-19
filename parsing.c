@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 23:24:54 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/20 00:13:41 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
     find_pos(mlx);
     col = mlx->col.flag_c;
     e_found = 0;
-    ft_printf("\n[%s]:%d\n",__FUNCTION__, __LINE__);
+    // ft_printf("\n[%s]:%d\n",__FUNCTION__, __LINE__);
     temp = (char **)malloc (sizeof(char *) * y_counter + 1);
     while (e_found < y_counter)
     {
@@ -280,14 +280,7 @@ void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
     {
         if (!is_movable(mlx, temp))
             route_error(map, temp);
-        temp[y][x] = '2';
-        if (temp[y][x] == 'E')
-        {
-            e_found = 1;
-            temp[y][x] = '1';
-        }
-        else if (temp[y][x] == 'C')
-            col--;
+        
         // ft_printf("temp[y][x]:%c\n",temp[y][x]);
         // ft_printf("temp[y - 1][x]:%c\n",temp[y - 1][x]);
         // ft_printf("temp[y][x + 1]:%c\n",temp[y][x + 1]);
@@ -308,6 +301,18 @@ void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
             x = mlx->player.x;
             y = mlx->player.y;
         }
+        if (temp[y][x] == 'E')
+        {
+            e_found = 1;
+            temp[y][x] = '1';
+            reset_map(temp);
+            x = mlx->player.x;
+            y = mlx->player.y;
+            continue;
+        }
+        else if (temp[y][x] == 'C')
+            col--;
+        temp[y][x] = '2';
         // for(int j = 0; temp[j];j++)
         // {
         //     for (int i = 0; temp[j][i];i++)
@@ -315,7 +320,7 @@ void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
         //         ft_printf("%c",temp[j][i]);
         //     }
         // }
-        // ft_printf("\n");
+        // ft_printf("\n\n");
     }
     free_map(temp);
 }

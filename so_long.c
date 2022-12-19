@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 20:53:50 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/20 00:24:17 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -548,8 +548,8 @@ int main(int argc, char **argv)
     // char	path_end[4][30] = {"Mario/end/end1.png", "Mario/end/end2.png", "Mario/end/end3.png", "Mario/end/end4.png"};
     int xwin = 0;
     int ywin = 0;
-    ft_printf("X:%d\n",X);
-    ft_printf("Y:%d\n",YW);
+    // ft_printf("X:%d\n",X);
+    // ft_printf("Y:%d\n",YW);
     
     t_struct mlx;
     
@@ -586,8 +586,8 @@ int main(int argc, char **argv)
 
     // mlx.img_col = mlx.col.img_col1;
 
-    ft_printf("real X map:%d\n",mlx.map.size_x);
-    ft_printf("real Y map:%d\n",mlx.map.size_y);
+    // ft_printf("real X map:%d\n",mlx.map.size_x);
+    // ft_printf("real Y map:%d\n",mlx.map.size_y);
     // mlx.map.size_x = 0;
     // mlx.map.size_y = 0;
     // inito(&mlx);
