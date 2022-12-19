@@ -194,6 +194,14 @@ int render_map(t_struct *mlx)
     return (0);
 }
 
+void init_min_max(t_struct *mlx)
+{
+    mlx->map.min_x = 0;
+    mlx->map.min_y = 0;
+    mlx->map.max_x = mlx->map.size_x;
+    mlx->map.max_y = mlx->map.size_y;
+}
+
 void fill_min_max(t_struct *mlx)
 {
     int px;
@@ -201,20 +209,31 @@ void fill_min_max(t_struct *mlx)
 
     px = mlx->player.x;
     py = mlx->player.y;
-    if (px - 0 > px - mlx->win_size_x)
-        mlx->map.min_x = px - mlx->win_size_x;
-    else 
+    if (px - 0 <= mlx->win_size_x / 2)
         mlx->map.min_x = 0;
-    if (py - 0 > py - mlx->win_size_y)
-        mlx->map.min_y = py - mlx->win_size_y;
-    else 
+    else if (mlx->map.size_x - px > mlx->win_size_x / 2)
+    {
+        mlx->map.min_x = px - (mlx->win_size_x / 2);
+        mlx->map.max_x = px + (mlx->win_size_x / 2);
+    }
+    if (py - 0 <= mlx->win_size_y / 2)
         mlx->map.min_y = 0;
-    ft_printf("[%s]:[%d] px:%d\n",__FUNCTION__ ,__LINE__, px);
-    ft_printf("[%s]:[%d] py:%d\n",__FUNCTION__ ,__LINE__, py);
-    ft_printf("[%s]:[%d] mlx->win_size_x:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_x);
-    ft_printf("[%s]:[%d] mlx->win_size_y:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_y);
-    ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
-    ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
+    else if (mlx->map.size_y - py > mlx->win_size_y / 2)
+    {
+        mlx->map.min_y = py - (mlx->win_size_y / 2);
+        mlx->map.max_y = py + (mlx->win_size_y / 2);
+    }
+    if (mlx->map.size_x - px <= mlx->win_size_x / 2)
+        mlx->map.max_x = mlx->map.size_x;        
+    if (mlx->map.size_y - py <= mlx->win_size_y / 2)
+        mlx->map.max_y = mlx->map.size_y;
+        
+    // ft_printf("[%s]:[%d] px:%d\n",__FUNCTION__ ,__LINE__, px);
+    // ft_printf("[%s]:[%d] py:%d\n",__FUNCTION__ ,__LINE__, py);
+    // ft_printf("[%s]:[%d] mlx->win_size_x:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_x);
+    // ft_printf("[%s]:[%d] mlx->win_size_y:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_y);
+    // ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
+    // ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
 }
 
 void fill_pos(t_struct *mlx, char c, int i, int j)
@@ -394,6 +413,7 @@ void init(int argc, char **argv, t_struct *mlx)
     init_col(mlx);
     // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     find_pos(mlx);
+    init_min_max(mlx);
     fill_min_max(mlx);
 }
 
