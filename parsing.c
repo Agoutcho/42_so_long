@@ -6,14 +6,12 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/18 03:44:50 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 21:48:11 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "so_long.h"
-
-void free_map(char **map);
 
 void error_not_rectangle()
 {
@@ -44,6 +42,14 @@ void char_error(char **map)
     ft_printf("- '1' for walls\n- '0' for free space\n- 'C' for coins\n");
     ft_printf("- Only 1 'E' for Exit\n- Only 1 'P' for Player\n");
     free_map(map);
+    exit(1);
+}
+
+void route_error(char **map, char **temp)
+{
+    ft_printf("Error\nWrong map, there is no valid route.\n");
+    free_map(map);
+    free_map(temp);
     exit(1);
 }
 
@@ -208,9 +214,113 @@ void check_if_wall_ok(char **map, int x_counter, int y_counter)
     }
 }
 
-void check_if_playable(char **map, int count_col, int flag_E, int x_counter, int y_counter)
+int is_movable(t_struct *mlx, char **temp)
 {
+    if (temp[mlx->player.y][mlx->player.x + 1] == '1' \
+     && temp[mlx->player.y][mlx->player.x - 1] == '1' \
+     && temp[mlx->player.y + 1][mlx->player.x] == '1' \
+     && temp[mlx->player.y - 1][mlx->player.x] == '1')
+        return (0);
+    return (1);
+}
+
+void reset_map(char **temp)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (temp[j])
+    {
+        while (temp[j][i])
+        {
+            if (temp[j][i] == '2')
+                temp[j][i] = '0';
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+}
+
+void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
+{
+    int e_found;
+    int col;
+    char **temp;
+    int x;
+    int y;
+    
     check_if_wall_ok(map, x_counter, y_counter);
+    find_pos(mlx);
+    col = mlx->col.flag_c;
+    e_found = 0;
+    ft_printf("\n[%s]:%d\n",__FUNCTION__, __LINE__);
+    temp = (char **)malloc (sizeof(char *) * y_counter + 1);
+    while (e_found < y_counter)
+    {
+        temp[e_found] = ft_strdup(map[e_found]);
+        e_found++;
+    }
+    temp[e_found] = 0;
+    // for(int j = 0; temp[j];j++)
+    // {
+    //     for (int i = 0; temp[j][i];i++)
+    //     {
+    //         ft_printf("%c",temp[j][i]);
+    //     }
+    // }
+    // exit(1);
+    e_found = 0;
+    
+    x = mlx->player.x;
+    y = mlx->player.y;
+    while (col || !e_found)
+    {
+        if (!is_movable(mlx, temp))
+            route_error(map, temp);
+        if (temp[y][x] == 'E')
+        {
+            e_found = 1;
+            temp[y][x] = '1';
+        }
+        else if (temp[y][x] == 'C')
+        {
+            col--;
+            temp[y][x] = '0';
+        }
+        temp[y][x] = '2';
+        // ft_printf("temp[y][x]:%c\n",temp[y][x]);
+        // ft_printf("temp[y - 1][x]:%c\n",temp[y - 1][x]);
+        // ft_printf("temp[y][x + 1]:%c\n",temp[y][x + 1]);
+        // ft_printf("temp[y + 1][x]:%c\n",temp[y + 1][x]);
+        // ft_printf("temp[y][x - 1]:%c\n",temp[y][x - 1]);
+        if (temp[y - 1][x] != '1' && temp[y - 1][x] != '2')
+            y--;
+        else if (temp[y][x + 1] != '1' && temp[y][x + 1] != '2')
+            x++;
+        else if (temp[y + 1][x] != '1' && temp[y + 1][x] != '2')
+            y++;
+        else if (temp[y][x - 1] != '1' && temp[y][x - 1] != '2')
+            x--;
+        else
+        {
+            temp[y][x] = '1';
+            reset_map(temp);
+            x = mlx->player.x;
+            y = mlx->player.y;
+        }
+        // for(int j = 0; temp[j];j++)
+        // {
+        //     for (int i = 0; temp[j][i];i++)
+        //     {
+        //         ft_printf("%c",temp[j][i]);
+        //     }
+        // }
+        // ft_printf("\n");
+    }
+    free_map(temp);
 }
 
 void parsing(int argc, char **argv, t_struct *mlx)
@@ -237,8 +347,8 @@ void parsing(int argc, char **argv, t_struct *mlx)
 
     check_if_map_ok(mlx, mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
 
-
-    check_if_wall_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
+    // check_if_wall_ok(mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
+    check_if_playable(mlx, mlx->map.real_map, mlx->map.size_x, mlx->map.size_y);
     ft_printf("\n");
     for(int j = 0; mlx->map.real_map[j];j++)
     {

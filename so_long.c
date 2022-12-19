@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 18:58:05 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 20:53:50 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int key_pressed(int button, t_struct *mlx)
         if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] == 'E' \
             && mlx->finished)
             destroy_win(mlx);
-        else if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != '1' \
+        if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != '1' \
             && mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != 'E')
         {
             mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
@@ -71,7 +71,7 @@ int key_pressed(int button, t_struct *mlx)
         if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] == 'E' \
             && mlx->finished)
             destroy_win(mlx);
-        else if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != '1' \
+        if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != '1' \
             && mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != 'E')
         {
             mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
@@ -91,7 +91,7 @@ int key_pressed(int button, t_struct *mlx)
         if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] == 'E' \
             && mlx->finished)
             destroy_win(mlx);
-        else if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != '1' \
+        if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != '1' \
             && mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != 'E')
         {
             mlx->map.real_map[mlx->player.y][mlx->player.x] = '0';
@@ -105,16 +105,6 @@ int key_pressed(int button, t_struct *mlx)
         ft_printf("button :%d exit\n", button);
         ft_printf("%d\n", mlx->player.f_counter);
     }
-    else if (button == 35)
-    {
-        ft_printf("i :%d\n", i);
-        mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i, 0);
-        i +=32;
-    }
-    else if (button == 31)
-    {
-        mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
-    }
     render_map(mlx);
 
     return (0);
@@ -127,46 +117,6 @@ int destroy_win(t_struct *mlx)
     exit(0);
 
     return (0);
-}
-
-void inito(t_struct *mlx)
-{
-    int i;
-    int j;
-
-    j = 0;
-    i = 0;
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_font, 0, 0);
-    while (i < X)
-    {
-        if (i == ((X / 64 + 1) * 32))
-            mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i - 1, 0);
-        mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i, 0);
-        i += 32;
-    }
-    i -= 32;
-    while (j + (32 * (int)(16/9.0)) < YW)
-    {
-        if (j == ((YW / 64 + 1) * 32))
-            mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i, j - 1);
-        mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i, j);
-        j += 32;
-    }
-    j -= 32;
-    while (i > 0)
-    {
-        if (i == ((X / 64 + 1) * 32))
-            mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i - 1, j);
-        mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i, j);
-        i -= 32;
-    }
-    while (j > 0)
-    {
-        if (j == ((YW / 64 + 1) * 32))
-            mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, 0, j - 1);
-        mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, 0, j);
-        j -= 32;
-    }
 }
 
 // anim_counter : 10 000 = 1sec
@@ -415,27 +365,11 @@ void fill_min_max(t_struct *mlx)
 
 void fill_pos(t_struct *mlx, char c, int i, int j)
 {
-    int col_index;
-    
-    col_index = mlx->col.flag_c - mlx->col.flag_c_counter;
-    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
-    if (c == 'C')
-    {
-        mlx->col.x[col_index] = i;
-        mlx->col.y[col_index] = j;
-        mlx->col.flag_c_counter--;
-    }
-    else if (c == 'P')
+    if (c == 'P')
     {
         mlx->player.x = i;
         mlx->player.y = j;
     }
-    else if (c == 'E')
-    {
-        mlx->end.x = i;
-        mlx->end.y = j;
-    }
-    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
 }
 
 void find_pos(t_struct *mlx)
@@ -446,14 +380,17 @@ void find_pos(t_struct *mlx)
 
     i = 0;
     j = 0;
-    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     while (j < mlx->map.size_y)
     {
         while (i < mlx->map.size_x)
         {
-            // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
             c = mlx->map.real_map[j][i];
-            fill_pos(mlx, c, i, j);
+            if (c == 'P')
+            {
+                mlx->player.x = i;
+                mlx->player.y = j;
+                return;
+            }
             i++;
         }
         j++;
@@ -475,9 +412,6 @@ void init_player(t_struct *mlx)
 void init_end(t_struct *mlx)
 {
     char	*path1;
-    char	*path2;
-    char	*path3;
-    char	*path4;
     int iw;
     int ih;
 
@@ -512,13 +446,6 @@ void init_col(t_struct *mlx)
     path1 = "Mario/col/col6.png";
     mlx->col.img_col6 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
     mlx->img_col = mlx->col.img_col1;
-    mlx->col.x = (int *)malloc(sizeof(int) * mlx->col.flag_c);
-    mlx->col.y = (int *)malloc(sizeof(int) * mlx->col.flag_c);
-    if (!mlx->col.x || !mlx->col.y)
-    {
-        free_map(mlx->map.real_map);
-        exit(1);
-    }
 }
 
 void init_win(t_struct *mlx)
@@ -633,8 +560,6 @@ int main(int argc, char **argv)
     ft_printf("[%s]:[%d] mlx->col.flag_c:%d\n",__FUNCTION__ ,__LINE__, mlx.col.flag_c);
     ft_printf("[%s]:[%d] player X:%d\n",__FUNCTION__ ,__LINE__, mlx.player.x);
     ft_printf("[%s]:[%d] player Y:%d\n",__FUNCTION__ ,__LINE__, mlx.player.y);
-    ft_printf("[%s]:[%d] end X:%d\n",__FUNCTION__ ,__LINE__, mlx.end.x);
-    ft_printf("[%s]:[%d] end Y:%d\n",__FUNCTION__ ,__LINE__, mlx.end.y);
     
     // int img_width, img_height;
     // mlx.player.x += 32;

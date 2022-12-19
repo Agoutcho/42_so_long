@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 17:50:58 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:59:02 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct s_player {
 typedef struct s_col {
     int flag_c;
     int flag_c_counter;
-    int *x;
-    int *y;
     void *img_col1;
     void *img_col2;
     void *img_col3;
@@ -61,8 +59,6 @@ typedef struct s_col {
 
 typedef struct s_end {
     int flag_e;
-    int x;
-    int y;
     void *img_end1;
     void *img_end2;
     void *img_end3;
@@ -110,5 +106,6 @@ void inito(t_struct *mlx);
 int render_map(t_struct *mlx);
 void free_map(char **map);
 void fill_min_max(t_struct *mlx);
+void find_pos(t_struct *mlx);
 
 #endif
