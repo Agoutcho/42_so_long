@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/18 05:11:13 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 18:18:42 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,6 @@ int anim(t_struct *mlx)
     return (0);
 }
 
-void init_little_map(t_struct *mlx)
-{
-    
-}
-
 void render_all_map(t_struct *mlx)
 {
     
@@ -179,55 +174,177 @@ void render_all_map(t_struct *mlx)
 int render_map(t_struct *mlx)
 {
     char *temp;
-
+    int i;
+    int j;
+    
+    fill_min_max(mlx);
+    i = mlx->map.min_x;
+    j = mlx->map.min_y;
+    ft_printf("[%s]:[%d] mlx->map.min_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
+    ft_printf("[%s]:[%d] mlx->map.min_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
+    ft_printf("[%s]:[%d] mlx->map.max_x:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_x);
+    ft_printf("[%s]:[%d] mlx->map.max_y:%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_y);
     mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
-    inito(mlx);
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->end.img_end4, 320, (Y(320) - (Y(320)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_end, 320, (Y(320) - (Y(320)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 160, (Y(160) - (Y(160)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 352, (Y(352) - (Y(352)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 64, (Y(296) - (Y(296)) % 32));
-    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, mlx->player.x, mlx->player.y);
+    mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_font, 0, 0);
+    while (j < mlx->map.max_y)
+    {
+        while (i < mlx->map.max_x)
+        {
+            // ft_printf("[%s]:[%d] mlx->map.real_map[j][i]:%c\n",__FUNCTION__ ,__LINE__, mlx->map.real_map[j][i]);
+            if (mlx->map.real_map[j][i] == '1')
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->map.img_wall, i * 32, j * 32);
+            else if (mlx->map.real_map[j][i] == 'P')
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, i * 32, j * 32);
+            else if (mlx->map.real_map[j][i] == 'E')
+            {
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->end.img_end4, i * 32, j * 32);
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_end, i * 32, j * 32);
+            }
+            else if (mlx->map.real_map[j][i] == 'C')
+                mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, i * 32, j * 32);
+                i++;
+        }
+        j++;
+        i = mlx->map.min_x;
+    }
     temp = ft_itoa(mlx->player.f_counter);
     mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 16, 20, 0x00FFFFFF, temp);
     free (temp);
     return (0);
 }
 
+// int render_map(t_struct *mlx)
+// {
+//     char *temp;
+
+//     mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
+//     inito(mlx);
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->end.img_end4, 320, (Y(320) - (Y(320)) % 32));
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_end, 320, (Y(320) - (Y(320)) % 32));
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 160, (Y(160) - (Y(160)) % 32));
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 352, (Y(352) - (Y(352)) % 32));
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_col, 64, (Y(296) - (Y(296)) % 32));
+//     mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->player.img_mario, mlx->player.x, mlx->player.y);
+//     temp = ft_itoa(mlx->player.f_counter);
+//     mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 16, 20, 0x00FFFFFF, temp);
+//     free (temp);
+//     return (0);
+// }
+
+void    check_x_max(t_struct *mlx, int test)
+{
+    int a;
+
+    a = mlx->map.move_x;
+    if (mlx->map.flag_x_min == 0 || test)
+    {
+        if ((mlx->map.size_x - mlx->player.x) - (mlx->win_size_x / 2) > 0 && a)
+        {
+            mlx->map.flag_x_max = 0;
+            mlx->map.max_x = mlx->player.x + (mlx->win_size_x / 2);
+        }
+        else
+        {
+            mlx->map.flag_x_max = 1;
+            mlx->map.max_x = mlx->map.size_x;
+        }
+    }
+    else 
+        mlx->map.max_x = mlx->win_size_x;
+        ft_printf("\n[%s]:[%d] mlx->player.x :%d\n",__FUNCTION__ ,__LINE__, mlx->player.x);
+        ft_printf("[%s]:[%d]+mlx->win_size_x / 2 :%d\n",__FUNCTION__ ,__LINE__, (mlx->win_size_x / 2));
+        ft_printf("[%s]:[%d] mlx->map.max_x :%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_x);
+        ft_printf("[%s]:[%d] mlx->map.size_x :%d\n",__FUNCTION__ ,__LINE__, mlx->map.size_x);
+}
+
+void    check_x_min(t_struct *mlx, int test)
+{
+    int a;
+
+    a = mlx->map.move_x;
+    if (mlx->map.flag_x_max == 0 || test)
+    {
+        if (mlx->player.x - (mlx->win_size_x / 2) > 0 && a)
+        {
+            mlx->map.flag_x_min = 0;
+            mlx->map.min_x = mlx->player.x - (mlx->win_size_x / 2);
+        }
+        else
+        {
+            mlx->map.flag_x_min = 1;
+            mlx->map.min_x = 0;
+        }
+        ft_printf("\n[%s]:[%d] mlx->player.x :%d\n",__FUNCTION__ ,__LINE__, mlx->player.x);
+        ft_printf("[%s]:[%d]-mlx->win_size_x / 2 :%d\n",__FUNCTION__ ,__LINE__, (mlx->win_size_x / 2));
+        ft_printf("[%s]:[%d] mlx->map.min_x :%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_x);
+    }    
+}
+
+void    check_y_min(t_struct *mlx, int test)
+{
+    int a;
+
+    a = mlx->map.move_y;
+    if (mlx->map.flag_y_max == 0 || test)
+    {
+        if (mlx->player.y - (mlx->win_size_y / 2) > 0 && a)
+        {
+            mlx->map.flag_y_min = 0;
+            mlx->map.min_y = mlx->player.y - (mlx->win_size_y / 2);
+        }
+        else
+        {
+            mlx->map.flag_y_min = 1;
+            mlx->map.min_y = 0;
+        }
+        ft_printf("\n[%s]:[%d] mlx->player.y :%d\n",__FUNCTION__ ,__LINE__, mlx->player.y);
+        ft_printf("[%s]:[%d]-mlx->win_size_y / 2 :%d\n",__FUNCTION__ ,__LINE__, (mlx->win_size_y / 2));
+        ft_printf("[%s]:[%d] mlx->map.min_y :%d\n",__FUNCTION__ ,__LINE__, mlx->map.min_y);
+    }
+}
+
+void    check_y_max(t_struct *mlx, int test)
+{
+    int a;
+
+    a = mlx->map.move_y;
+    if (mlx->map.flag_y_min == 0 || test)
+    {
+        if ((mlx->map.size_y - mlx->player.y) - (mlx->win_size_y / 2) > 0 && a)
+        {
+            mlx->map.flag_y_max = 0;
+            mlx->map.max_y = mlx->player.y + (mlx->win_size_y / 2);
+        }
+        else
+        {
+            mlx->map.flag_y_max = 1;
+            mlx->map.max_y = mlx->map.size_y;
+        }
+    }
+    else 
+        mlx->map.max_y = mlx->win_size_y;
+        ft_printf("\n[%s]:[%d] mlx->player.y :%d\n",__FUNCTION__ ,__LINE__, mlx->player.y);
+        ft_printf("[%s]:[%d]+mlx->win_size_y / 2 :%d\n",__FUNCTION__ ,__LINE__, (mlx->win_size_y / 2));
+        ft_printf("[%s]:[%d] mlx->map.size_y :%d\n",__FUNCTION__ ,__LINE__, mlx->map.size_y);
+        ft_printf("[%s]:[%d] mlx->map.max_y :%d\n",__FUNCTION__ ,__LINE__, mlx->map.max_y);
+}
+
 void init_min_max(t_struct *mlx)
 {
-    mlx->map.min_x = 0;
-    mlx->map.min_y = 0;
-    mlx->map.max_x = mlx->map.size_x;
-    mlx->map.max_y = mlx->map.size_y;
+    ft_printf("\n[%s]:[%d] \n",__FUNCTION__ ,__LINE__);
+    check_x_min(mlx, 1);
+    check_x_max(mlx, 1);
+    check_y_min(mlx, 1);
+    check_y_max(mlx, 1);
 }
 
 void fill_min_max(t_struct *mlx)
 {
-    int px;
-    int py;
+    check_x_min(mlx, 0);
+    check_x_max(mlx, 0);
+    check_y_min(mlx, 0);
+    check_y_max(mlx, 0);
 
-    px = mlx->player.x;
-    py = mlx->player.y;
-    if (px - 0 <= mlx->win_size_x / 2)
-        mlx->map.min_x = 0;
-    else if (mlx->map.size_x - px > mlx->win_size_x / 2)
-    {
-        mlx->map.min_x = px - (mlx->win_size_x / 2);
-        mlx->map.max_x = px + (mlx->win_size_x / 2);
-    }
-    if (py - 0 <= mlx->win_size_y / 2)
-        mlx->map.min_y = 0;
-    else if (mlx->map.size_y - py > mlx->win_size_y / 2)
-    {
-        mlx->map.min_y = py - (mlx->win_size_y / 2);
-        mlx->map.max_y = py + (mlx->win_size_y / 2);
-    }
-    if (mlx->map.size_x - px <= mlx->win_size_x / 2)
-        mlx->map.max_x = mlx->map.size_x;        
-    if (mlx->map.size_y - py <= mlx->win_size_y / 2)
-        mlx->map.max_y = mlx->map.size_y;
-        
     // ft_printf("[%s]:[%d] px:%d\n",__FUNCTION__ ,__LINE__, px);
     // ft_printf("[%s]:[%d] py:%d\n",__FUNCTION__ ,__LINE__, py);
     // ft_printf("[%s]:[%d] mlx->win_size_x:%d\n",__FUNCTION__ ,__LINE__, mlx->win_size_x);
@@ -241,7 +358,7 @@ void fill_pos(t_struct *mlx, char c, int i, int j)
     int col_index;
     
     col_index = mlx->col.flag_c - mlx->col.flag_c_counter;
-    ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
+    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     if (c == 'C')
     {
         mlx->col.x[col_index] = i;
@@ -258,7 +375,7 @@ void fill_pos(t_struct *mlx, char c, int i, int j)
         mlx->end.x = i;
         mlx->end.y = j;
     }
-    ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
+    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
 }
 
 void find_pos(t_struct *mlx)
@@ -269,12 +386,12 @@ void find_pos(t_struct *mlx)
 
     i = 0;
     j = 0;
-    ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
+    // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     while (j < mlx->map.size_y)
     {
         while (i < mlx->map.size_x)
         {
-            ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
+            // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
             c = mlx->map.real_map[j][i];
             fill_pos(mlx, c, i, j);
             i++;
@@ -354,11 +471,17 @@ void init_win(t_struct *mlx)
     if (mlx->map.size_x * 32 < X)
         mlx->win_size_x = mlx->map.size_x;
     else 
-        mlx->win_size_x = X;
+    {
+        mlx->map.move_x = 1;
+        mlx->win_size_x = X / 32;
+    }
     if (mlx->map.size_y * 32 < YW)
         mlx->win_size_y = mlx->map.size_y;
     else 
-        mlx->win_size_y = YW;
+    {
+        mlx->map.move_y = 1;
+        mlx->win_size_y = YW / 32;
+    }
     sx = mlx->win_size_x * 32;
     sy = mlx->win_size_y * 32;
     mlx->mlx_ptr = mlx_init();
@@ -393,6 +516,12 @@ void init_map(t_struct *mlx)
     }
     mlx->map.little_map[sy] = 0;
     // ft_printf("[%s]:[%d] mlx->map.little_map:%p\n",__FUNCTION__ ,__LINE__, mlx->map.little_map);
+    mlx->map.flag_x_min = 0;
+    mlx->map.flag_y_min = 0;
+    mlx->map.flag_x_max = 0;
+    mlx->map.flag_y_max = 0;
+    mlx->map.move_x = 0;
+    mlx->map.move_y = 0;
 }
 
 void init(int argc, char **argv, t_struct *mlx)
@@ -414,7 +543,6 @@ void init(int argc, char **argv, t_struct *mlx)
     // ft_printf("[%s]:[%d]\n",__FUNCTION__ ,__LINE__);
     find_pos(mlx);
     init_min_max(mlx);
-    fill_min_max(mlx);
 }
 
 int main(int argc, char **argv)
@@ -449,8 +577,8 @@ int main(int argc, char **argv)
     ft_printf("[%s]:[%d] end Y:%d\n",__FUNCTION__ ,__LINE__, mlx.end.y);
     
     // int img_width, img_height;
-    mlx.player.x += 32;
-    mlx.player.y += 32;
+    // mlx.player.x += 32;
+    // mlx.player.y += 32;
 
     // mlx.mlx_ptr = mlx_init();
     // mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, X, YW, "Grand Theft Auto");
@@ -475,10 +603,10 @@ int main(int argc, char **argv)
 
     ft_printf("real X map:%d\n",mlx.map.size_x);
     ft_printf("real Y map:%d\n",mlx.map.size_y);
-    mlx.map.size_x = 0;
-    mlx.map.size_y = 0;
-    inito(&mlx);
-    mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.player.img_mario, mlx.player.x, mlx.player.y);
+    // mlx.map.size_x = 0;
+    // mlx.map.size_y = 0;
+    // inito(&mlx);
+    // mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.player.img_mario, mlx.player.x, mlx.player.y);
     // mlx_key_hook(mlx.win_ptr,key_pressed, &mlx);
     mlx_loop_hook(mlx.mlx_ptr, anim, &mlx);
     mlx_hook(mlx.win_ptr, 3, (1L<<1), key_pressed, &mlx);

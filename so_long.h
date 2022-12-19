@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/18 05:20:12 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 17:50:58 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ typedef struct s_map {
     int max_y;
     int min_x;
     int min_y;
+    int flag_x_min;
+    int flag_y_min;
+    int flag_x_max;
+    int flag_y_max;
+    int move_x;
+    int move_y;
     int size_x;
     int size_y;
     void *img_wall;
@@ -103,5 +109,6 @@ void init(int argc, char **argv, t_struct *mlx);
 void inito(t_struct *mlx);
 int render_map(t_struct *mlx);
 void free_map(char **map);
+void fill_min_max(t_struct *mlx);
 
 #endif
