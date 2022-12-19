@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/19 21:48:11 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/19 23:24:54 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,17 +280,14 @@ void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
     {
         if (!is_movable(mlx, temp))
             route_error(map, temp);
+        temp[y][x] = '2';
         if (temp[y][x] == 'E')
         {
             e_found = 1;
             temp[y][x] = '1';
         }
         else if (temp[y][x] == 'C')
-        {
             col--;
-            temp[y][x] = '0';
-        }
-        temp[y][x] = '2';
         // ft_printf("temp[y][x]:%c\n",temp[y][x]);
         // ft_printf("temp[y - 1][x]:%c\n",temp[y - 1][x]);
         // ft_printf("temp[y][x + 1]:%c\n",temp[y][x + 1]);
