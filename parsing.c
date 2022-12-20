@@ -6,17 +6,14 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 01:46:48 by atchougo         ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 04:29:06 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "so_long.h"
 
-void check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter);
-
-
-void	error_not_rectangle()
+void	error_not_rectangle(void)
 {
 	ft_printf("Error\nWrong size, map should be a rectangle.\n");
 	exit (1);
@@ -119,8 +116,8 @@ char	**fill_map(int fd, char **map, int x_counter, int y_counter)
 
 void	check_flag(t_struct *mlx, char c)
 {
-	if (c == '1'|| c == '0')
-		return;
+	if (c == '1' || c == '0')
+		return ;
 	else if (c == 'C')
 		(mlx->col.flag_c)++;
 	else if (c == 'P')
@@ -235,60 +232,75 @@ void	reset_map(char **temp)
 	}
 }
 
-void	check_if_playable(t_struct *mlx, char **map, int x_counter, int y_counter)
+static void	init_tab(t_struct *mlx, int *tab, char **temp, int flag)
 {
-	int		e_found;
-	int		col;
-	char	**temp;
-	int		x;
-	int		y;
-
-	check_if_wall_ok(map, x_counter, y_counter);
-	find_pos(mlx);
-	col = mlx->col.flag_c;
-	e_found = 0;
-	temp = (char **)malloc (sizeof(char *) * y_counter + 1);
-	while (e_found < y_counter)
+	if (flag == 0)
 	{
-		temp[e_found] = ft_strdup(map[e_found]);
-		e_found++;
+		find_pos(mlx);
+		tab[0] = 0;
+		tab[1] = mlx->col.flag_c;
+		tab[2] = mlx->player.x;
+		tab[3] = mlx->player.y;
+		tab[4] = 0;
 	}
-	temp[e_found] = 0;
-	e_found = 0;
-
-	x = mlx->player.x;
-	y = mlx->player.y;
-	while (col || !e_found)
+	else if (flag == 1)
 	{
-		if (!is_movable(mlx, temp))
-			route_error(map, temp);
-		if (temp[y - 1][x] != '1' && temp[y - 1][x] != '2')
-			y--;
-		else if (temp[y][x + 1] != '1' && temp[y][x + 1] != '2')
-			x++;
-		else if (temp[y + 1][x] != '1' && temp[y + 1][x] != '2')
-			y++;
-		else if (temp[y][x - 1] != '1' && temp[y][x - 1] != '2')
-			x--;
-		else
+		temp[tab[3]][tab[2]] = '1';
+		reset_map(temp);
+		tab[2] = mlx->player.x;
+		tab[3] = mlx->player.y;
+	}
+	else if (flag == 2)
+	{
+		tab[0] = 1;
+		temp[tab[3]][tab[2]] = '1';
+		reset_map(temp);
+		tab[2] = mlx->player.x;
+		tab[3] = mlx->player.y;
+	}
+}
+
+void	route(t_struct *mlx, char **tp, char **map, int *tab)
+{
+	if (!is_movable(mlx, tp))
+		route_error(map, tp);
+	if (tp[tab[3] - 1][tab[2]] != '1' && tp[tab[3] - 1][tab[2]] != '2')
+		tab[3]--;
+	else if (tp[tab[3]][tab[2] + 1] != '1' && tp[tab[3]][tab[2] + 1] != '2')
+		tab[2]++;
+	else if (tp[tab[3] + 1][tab[2]] != '1' && tp[tab[3] + 1][tab[2]] != '2')
+		tab[3]++;
+	else if (tp[tab[3]][tab[2] - 1] != '1' && tp[tab[3]][tab[2] - 1] != '2')
+		tab[2]--;
+	else
+		init_tab(mlx, tab, tp, 1);
+}
+
+void	check_if_playable(t_struct *mlx, char **map, int x_cnt, int y_counter)
+{
+	int		tab[5];
+	char	**temp;
+
+	check_if_wall_ok(map, x_cnt, y_counter);
+	temp = (char **)malloc (sizeof(char *) * y_counter + 1);
+	init_tab(mlx, tab, temp, 0);
+	while (tab[4] < y_counter)
+	{
+		temp[tab[4]] = ft_strdup(map[tab[4]]);
+		tab[4]++;
+	}
+	temp[tab[4]] = 0;
+	while (tab[1] || !tab[0])
+	{
+		route(mlx, temp, map, tab);
+		if (temp[tab[3]][tab[2]] == 'E')
 		{
-			temp[y][x] = '1';
-			reset_map(temp);
-			x = mlx->player.x;
-			y = mlx->player.y;
+			init_tab(mlx, tab, temp, 2);
+			continue ;
 		}
-		if (temp[y][x] == 'E')
-		{
-			e_found = 1;
-			temp[y][x] = '1';
-			reset_map(temp);
-			x = mlx->player.x;
-			y = mlx->player.y;
-			continue;
-		}
-		else if (temp[y][x] == 'C')
-			col--;
-		temp[y][x] = '2';
+		else if (temp[tab[3]][tab[2]] == 'C')
+			tab[1]--;
+		temp[tab[3]][tab[2]] = '2';
 	}
 	free_map(temp);
 }

@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 01:53:12 by atchougo         ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 04:08:24 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_map {
 	int		size_x;
 	int		size_y;
 	void	*img_wall;
-	void	*img_font;
+	void	*img_fn;
 }				t_map;
 
 typedef struct s_struct {
