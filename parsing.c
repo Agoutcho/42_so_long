@@ -6,13 +6,13 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 04:55:08 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/20 05:08:03 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char	**fill_map(int fd, char **map, int x_counter, int y_counter)
+char	**fill_map(int fd, char **map, int y_counter)
 {
 	int	i;
 
@@ -98,7 +98,7 @@ void	parsing(int argc, char **argv, t_struct *mlx)
 	close (fd);
 	fd = open (argv[1], O_RDONLY);
 	sy = mlx->map.size_y;
-	mlx->map.real_map = fill_map(fd, mlx->map.real_map, mlx->map.size_x, sy);
+	mlx->map.real_map = fill_map(fd, mlx->map.real_map, sy);
 	close (fd);
 	check_if_map_ok(mlx, mlx->map.real_map, mlx->map.size_x, sy);
 	check_if_playable(mlx, mlx->map.real_map, mlx->map.size_x, sy);
