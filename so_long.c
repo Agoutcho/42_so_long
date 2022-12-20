@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 02:11:03 by atchougo         ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 02:59:16 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,8 @@ void	check_x_min(t_struct *mlx, int test)
 			mlx->map.min_x = 0;
 		}
 	}
+    else
+		mlx->map.min_x = mlx->map.size_x - mlx->win_size_x;
 }
 
 void	check_y_min(t_struct *mlx, int test)
@@ -266,6 +268,8 @@ void	check_y_min(t_struct *mlx, int test)
 			mlx->map.min_y = 0;
 		}
 	}
+    else
+		mlx->map.min_y = mlx->map.size_y - mlx->win_size_y;
 }
 
 void	check_y_max(t_struct *mlx, int test)
