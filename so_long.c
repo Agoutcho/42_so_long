@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 01:00:01 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/20 01:03:55 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -550,7 +550,6 @@ int main(int argc, char **argv)
     int ywin = 0;
     // ft_printf("X:%d\n",X);
     // ft_printf("Y:%d\n",YW);
-    
     
     t_struct mlx;
     
