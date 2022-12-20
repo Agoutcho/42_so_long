@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 04:08:24 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/20 04:58:19 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,30 @@ typedef struct s_struct {
 
 void	parsing(int argc, char **argv, t_struct *mlx);
 int		destroy_win(t_struct *mlx);
+
+int		key_pressed(int button, t_struct *mlx);
+
 void	init(int argc, char **argv, t_struct *mlx);
-void	inito(t_struct *mlx);
+void	init_player(t_struct *mlx);
+void	init_end(t_struct *mlx);
+void	init_col(t_struct *mlx);
+void	init_win(t_struct *mlx);
+
 int		render_map(t_struct *mlx);
 void	free_map(char **map);
-void	fill_min_max(t_struct *mlx);
+void	fill_min_max(t_struct *mlx, int value);
 void	find_pos(t_struct *mlx);
+
+void	check_if_map_ok(t_struct *mlx, char **map, int x_cnt, int y_counter);
+void	check_if_playable(t_struct *mlx, char **map, int x_cnt, int y_counter);
+void	check_if_wall_ok(char **map, int x_counter, int y_counter);
+
+void	route_error(char **map, char **temp);
+void	char_error(char **map);
+void	check_arg_error(int argc, char **argv);
+void	error_not_rectangle(void);
+void	wall_error(char **map);
+
+int		is_map_size_ok(int fd, int *x_counter, int *y_counter);
 
 #endif
