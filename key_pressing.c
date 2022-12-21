@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:33:39 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 22:04:08 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 22:08:23 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	go_left(t_struct *mlx)
 {
-	int t;
+	int	t;
 
 	t = mlx->map.real_map[mlx->player.y][mlx->player.x - 1] == 'X';
 	if ((mlx->map.real_map[mlx->player.y][mlx->player.x - 1] == 'E' \
-			&& mlx->finished) || t)
+				&& mlx->finished) || t)
 		destroy_win(mlx);
 	if (mlx->map.real_map[mlx->player.y][mlx->player.x - 1] != '1' \
 			&& mlx->map.real_map[mlx->player.y][mlx->player.x - 1] != 'E')
@@ -35,11 +35,11 @@ static void	go_left(t_struct *mlx)
 
 static void	go_right(t_struct *mlx)
 {
-	int t;
+	int	t;
 
 	t = mlx->map.real_map[mlx->player.y][mlx->player.x + 1] == 'X';
 	if ((mlx->map.real_map[mlx->player.y][mlx->player.x + 1] == 'E' \
-			&& mlx->finished) || t)
+				&& mlx->finished) || t)
 		destroy_win(mlx);
 	if (mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != '1' \
 			&& mlx->map.real_map[mlx->player.y][mlx->player.x + 1] != 'E')
@@ -56,11 +56,11 @@ static void	go_right(t_struct *mlx)
 
 static void	go_down(t_struct *mlx)
 {
-	int t;
+	int	t;
 
 	t = mlx->map.real_map[mlx->player.y + 1][mlx->player.x] == 'X';
 	if ((mlx->map.real_map[mlx->player.y + 1][mlx->player.x] == 'E' \
-			&& mlx->finished) || t)
+				&& mlx->finished) || t)
 		destroy_win(mlx);
 	if (mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != '1' \
 			&& mlx->map.real_map[mlx->player.y + 1][mlx->player.x] != 'E')
@@ -77,11 +77,11 @@ static void	go_down(t_struct *mlx)
 
 static void	go_up(t_struct *mlx)
 {
-	int t;
+	int	t;
 
 	t = mlx->map.real_map[mlx->player.y - 1][mlx->player.x] == 'X';
 	if ((mlx->map.real_map[mlx->player.y - 1][mlx->player.x] == 'E' \
-			&& mlx->finished)|| t)
+				&& mlx->finished) || t)
 		destroy_win(mlx);
 	if (mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != '1' \
 			&& mlx->map.real_map[mlx->player.y - 1][mlx->player.x] != 'E')
