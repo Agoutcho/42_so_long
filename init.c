@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:41:55 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 17:40:31 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 21:51:58 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_player(t_struct *mlx)
 
 	pa = "Mario/player/mario1.xpm";
 	mlx->player.img_mario = mlx_xpm_file_to_image(mlx->mlx_ptr, pa, &iw, &ih);
+	pa = "Mario/enemy.xpm";
+	mlx->img_ene = mlx_xpm_file_to_image(mlx->mlx_ptr, pa, &iw, &ih);
 	mlx->player.f_counter = 0;
 }
 

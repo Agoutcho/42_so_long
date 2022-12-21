@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:35:57 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 19:29:27 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 21:48:28 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static void	render_map_checker(t_struct *mlx, int *tab)
 	else if (mlx->map.real_map[tab[3]][tab[2]] == 'C')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->img_col, (tab[0] * 32), (tab[1] * 32));
+	else if (mlx->map.real_map[tab[3]][tab[2]] == 'X')
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
+				mlx->img_ene, (tab[0] * 32), (tab[1] * 32));
 }
 
 static void	init_tab(t_struct *mlx, int *tab, int val)

@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 17:33:07 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 21:46:43 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_struct {
 	int			win_size_y;
 	void		*img_end;
 	void		*img_col;
+	void		*img_ene;
 	int			finished;
 	int			anim_counter;
 	t_player	player;
