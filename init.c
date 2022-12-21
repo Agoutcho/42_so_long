@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:41:55 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 04:59:56 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:40:31 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	init_player(t_struct *mlx)
 	int		iw;
 	int		ih;
 
-	pa = "Mario/player/mario1.png";
-	mlx->player.img_mario = mlx_png_file_to_image(mlx->mlx_ptr, pa, &iw, &ih);
+	pa = "Mario/player/mario1.xpm";
+	mlx->player.img_mario = mlx_xpm_file_to_image(mlx->mlx_ptr, pa, &iw, &ih);
 	mlx->player.f_counter = 0;
 }
 
@@ -29,14 +29,14 @@ void	init_end(t_struct *mlx)
 	int		iw;
 	int		ih;
 
-	path1 = "Mario/end/end1.png";
-	mlx->end.img_end1 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/end/end2.png";
-	mlx->end.img_end2 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/end/end3.png";
-	mlx->end.img_end3 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/end/end4.png";
-	mlx->end.img_end4 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/end/end1.xpm";
+	mlx->end.img_end1 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/end/end2.xpm";
+	mlx->end.img_end2 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/end/end3.xpm";
+	mlx->end.img_end3 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/end/end4.xpm";
+	mlx->end.img_end4 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
 	mlx->img_end = mlx->end.img_end1;
 	mlx->finished = 0;
 	mlx->anim_counter = 0;
@@ -49,18 +49,18 @@ void	init_col(t_struct *mlx)
 	int		ih;
 
 	mlx->col.flag_c_counter = mlx->col.flag_c;
-	path1 = "Mario/col/col1.png";
-	mlx->col.img_col1 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/col/col2.png";
-	mlx->col.img_col2 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/col/col3.png";
-	mlx->col.img_col3 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/col/col4.png";
-	mlx->col.img_col4 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/col/col5.png";
-	mlx->col.img_col5 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
-	path1 = "Mario/col/col6.png";
-	mlx->col.img_col6 = mlx_png_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col1.xpm";
+	mlx->col.img_col1 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col2.xpm";
+	mlx->col.img_col2 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col3.xpm";
+	mlx->col.img_col3 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col4.xpm";
+	mlx->col.img_col4 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col5.xpm";
+	mlx->col.img_col5 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
+	path1 = "Mario/col/col6.xpm";
+	mlx->col.img_col6 = mlx_xpm_file_to_image(mlx->mlx_ptr, path1, &iw, &ih);
 	mlx->img_col = mlx->col.img_col1;
 }
 
@@ -95,8 +95,8 @@ void	init_win(t_struct *mlx)
 		mlx->win_size_y = YW / 32;
 	}
 	init_map(mlx);
-	path = "Mario/wall1.png";
-	mlx->map.img_wall = mlx_png_file_to_image(mlx->mlx_ptr, path, &iw, &iw);
-	path = "Mario/font.png";
-	mlx->map.img_fn = mlx_png_file_to_image(mlx->mlx_ptr, path, &iw, &iw);
+	path = "Mario/wall1.xpm";
+	mlx->map.img_wall = mlx_xpm_file_to_image(mlx->mlx_ptr, path, &iw, &iw);
+	path = "Mario/font.xpm";
+	mlx->map.img_fn = mlx_xpm_file_to_image(mlx->mlx_ptr, path, &iw, &iw);
 }

@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:26:26 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 04:58:19 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:33:07 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-# include <mlx.h>
+# include "minilibx_opengl_20191021/mlx.h"
 # include "libft/libft.h"
 
 # define ARROW_LEFT 123
