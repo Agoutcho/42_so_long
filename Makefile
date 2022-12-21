@@ -30,6 +30,8 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_DEPS = $(SRCS:.c=.d)
 
+BOBJS_DEPS = $(BONUS:.c=.d)
+
 BOBJS = $(BONUS:.c=.o)
 
 DEPS = so_long.d
@@ -55,7 +57,7 @@ $(NAME): $(OBJS) $(HEADER_FILES) Makefile
 
 .PHONY: bonus
 bonus: $(BOBJS) $(INCL) libs Makefile
-	rm -f $(OBJS)
+	rm -f $(BOBJS)
 	@$(CC) $(C_FLAGS) -c $(BONUS)
 	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(BOBJS) $(LIBS)
 
@@ -63,7 +65,7 @@ bonus: $(BOBJS) $(INCL) libs Makefile
 clean:
 	$(MAKE) clean -C ./minilibx_opengl_20191021/
 	$(MAKE) clean -C ./libft/
-	rm -f $(OBJS) $(NAME) $(OBJS_DEPS)
+	rm -f $(OBJS) $(BOBJS) $(NAME) $(OBJS_DEPS) $(BOBJS_DEPS)
 
 .PHONY: fclean
 fclean: clean
