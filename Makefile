@@ -1,19 +1,76 @@
 NAME = so_long
 
-all: alli
-	cc -Wall -Wextra -Werror *.o libft/libft.a -o $(NAME) \
-	 -Imlx -framework OpenGL -framework AppKit minilibx_opengl_20191021/libmlx.a
-	
-alli: ekke
-	cc -c -Wall -Wextra -Werror *.c
+SRCS = 			checker.c \
+				error.c \
+				fill_min_max.c \
+				find_position.c \
+				init.c \
+				key_pressing.c \
+				parsing.c \
+				render_map.c \
+				route_checker.c \
+				so_long.c
 
-ekke : ekkke
-	Make -C libft/
+BONUS = 		checker.c \
+				error.c \
+				fill_min_max.c \
+				find_position.c \
+				init.c \
+				key_pressing.c \
+				parsing.c \
+				render_map.c \
+				route_checker.c \
+				so_long.c
 
-ekkke:
-	Make -C minilibx_opengl_20191021/
+HEADER_FILES = so_long.h libft/libft.h minilibx_opengl_20191021/mlx.h
 
-fclean: 
-	rm *.o $(NAME)
-	Make fclean -C libft/
-	Make clean -C minilibx_opengl_20191021/
+LIBS = minilibx_opengl_20191021/libmlx.a libft/libft.a
+
+OBJS = $(SRCS:.c=.o)
+
+OBJS_DEPS = $(SRCS:.c=.d)
+
+BOBJS = $(BONUS:.c=.o)
+
+DEPS = so_long.d
+
+CC = gcc
+C_FLAGS = -Wall -Wextra -Werror -I. -MD
+MLXCC = -Imlx -framework OpenGL -framework AppKit
+
+%.o: %.c $(HEADER_FILES) Makefile
+	$(CC) $(C_FLAGS) -c $< -o $@
+
+.PHONY: all
+all: libs $(NAME)
+
+.PHONY: libs
+libs:
+	@$(MAKE) -C ./minilibx_opengl_20191021/
+	@$(MAKE) -C ./libft/
+
+$(NAME): $(OBJS) $(HEADER_FILES) Makefile
+	@$(CC) $(C_FLAGS) -c $(SRCS)
+	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(OBJS) $(LIBS)
+
+.PHONY: bonus
+bonus: $(BOBJS) $(INCL) mlx Makefile
+	rm -f $(OBJS)
+	@$(CC) $(C_FLAGS) -c $(BONUS)
+	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(BOBJS) $(LIBS)
+
+.PHONY: clean
+clean:
+	$(MAKE) clean -C ./minilibx_opengl_20191021/
+	$(MAKE) clean -C ./libft/
+	rm -f $(OBJS) $(NAME) $(OBJS_DEPS)
+
+.PHONY: fclean
+fclean: clean
+	$(MAKE) fclean -C ./libft/
+	rm -f $(NAME)
+
+.PHONY: re
+re: fclean all
+
+-include $(DEPS)
