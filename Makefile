@@ -11,7 +11,7 @@ SRCS = 			checker.c \
 				route_checker.c \
 				so_long.c
 
-BONUS = 		checker.c \
+BONUS = 		checker_bonus.c \
 				error.c \
 				fill_min_max.c \
 				find_position.c \
@@ -54,7 +54,7 @@ $(NAME): $(OBJS) $(HEADER_FILES) Makefile
 	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(OBJS) $(LIBS)
 
 .PHONY: bonus
-bonus: $(BOBJS) $(INCL) mlx Makefile
+bonus: $(BOBJS) $(INCL) libs Makefile
 	rm -f $(OBJS)
 	@$(CC) $(C_FLAGS) -c $(BONUS)
 	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(BOBJS) $(LIBS)
