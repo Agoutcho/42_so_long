@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 20:03:42 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 23:14:01 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int argc, char **argv)
 
 	init(argc, argv, &mlx);
 	mlx_loop_hook(mlx.mlx_ptr, anim, &mlx);
-	mlx_hook(mlx.win_ptr, 3, (1L << 1), key_pressed, &mlx);
+	mlx_hook(mlx.win_ptr, 2, (1L << 1), key_pressed, &mlx);
 	mlx_hook(mlx.win_ptr, 17, 0L, destroy_win, &mlx);
 	mlx_loop(mlx.mlx_ptr);
 	free_map(mlx.map.real_map);
