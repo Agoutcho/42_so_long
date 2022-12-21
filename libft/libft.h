@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 02:07:18 by atchougo          #+#    #+#             */
-/*   Updated: 2022/10/09 22:25:00 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 23:51:51 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "ft_printf/ft_printf.h"
+# include "ft_fprintf/ft_fprintf.h"
 # include "get_next_line/get_next_line.h"
 
 typedef struct s_list

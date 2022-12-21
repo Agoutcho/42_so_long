@@ -6,7 +6,7 @@
 #    By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 00:53:30 by atchougo          #+#    #+#              #
-#    Updated: 2022/10/14 20:18:18 by atchougo         ###   ########.fr        #
+#    Updated: 2022/12/21 23:52:13 by atchougo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRCS    =   ft_atoi.c       \
             ./get_next_line/get_next_line.c \
             ./get_next_line/get_next_line_utils.c \
             ./ft_printf/ft_printf_utils.c \
-            ./ft_printf/ft_printf.c      
+            ./ft_printf/ft_printf.c \
+            ./ft_fprintf/ft_fprintf_utils.c \
+            ./ft_fprintf/ft_fprintf.c      
 
 RBONUS  =   ft_lstnew.c     \
             ft_lstadd_front.c \

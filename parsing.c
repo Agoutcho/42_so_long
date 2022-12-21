@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 20:38:49 by atchougo         ###   ########lyon.fr   */
+/*   Updated: 2022/12/22 00:04:39 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int	open_file(char **argv)
 	close(fd);
 	if (fd != -1)
 	{
-		ft_printf("Error\nFile \"%s\" is a directory.\n", argv[1]);
+		ft_fprintf(2, "Error\nFile \"%s\" is a directory.\n", argv[1]);
 		exit (1);
 	}
 	fd = open (argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf("Error\nFile \"%s\" not found.\n", argv[1]);
+		ft_fprintf(2, "Error\nFile \"%s\" not found.\n", argv[1]);
 		exit (1);
 	}
 	return (fd);
