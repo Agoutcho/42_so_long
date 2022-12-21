@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:33:38 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 19:05:01 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 20:03:42 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,21 @@ static void	finished(t_struct *mlx)
 int	anim(t_struct *mlx)
 {
 	fill_min_max(mlx, 0);
-	if (mlx->anim_counter % 5 == 0)
+	if (mlx->anim_counter % 50 == 0)
 		render_map(mlx);
-	if (mlx->anim_counter % 10 == 0)
+	if (mlx->anim_counter % 100 == 0)
 		finished(mlx);
 	if (mlx->anim_counter == 1)
 		mlx->img_col = mlx->col.img_col1;
-	else if (mlx->anim_counter == 15)
+	else if (mlx->anim_counter == 1500 / mlx->win_size_x)
 		mlx->img_col = mlx->col.img_col2;
-	else if (mlx->anim_counter == 30)
+	else if (mlx->anim_counter == 3000 / mlx->win_size_x)
 		mlx->img_col = mlx->col.img_col3;
-	else if (mlx->anim_counter == 45)
+	else if (mlx->anim_counter == 4500 / mlx->win_size_x)
 		mlx->img_col = mlx->col.img_col4;
-	else if (mlx->anim_counter == 60)
+	else if (mlx->anim_counter == 6000 / mlx->win_size_x)
 		mlx->img_col = mlx->col.img_col5;
-	else if (mlx->anim_counter == 75)
+	else if (mlx->anim_counter == 7500 / mlx->win_size_x)
 	{
 		mlx->img_col = mlx->col.img_col6;
 		mlx->anim_counter = 0;

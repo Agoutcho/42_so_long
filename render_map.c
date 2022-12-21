@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:35:57 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/21 19:14:50 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 19:29:27 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static void	render_map_checker(t_struct *mlx, int *tab)
 	if (mlx->map.real_map[tab[3]][tab[2]] == '1')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->map.img_wall, (tab[0] * 32), (tab[1] * 32));
-	if (mlx->map.real_map[tab[3]][tab[2]] == 'P')
+	else if (mlx->map.real_map[tab[3]][tab[2]] == 'P')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->player.img_mario, (tab[0] * 32), (tab[1] * 32));
-	if (mlx->map.real_map[tab[3]][tab[2]] == 'E')
+	else if (mlx->map.real_map[tab[3]][tab[2]] == 'E')
 	{
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->end.img_end4, (tab[0] * 32), (tab[1] * 32));
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->img_end, (tab[0] * 32), (tab[1] * 32));
 	}
-	if (mlx->map.real_map[tab[3]][tab[2]] == 'C')
+	else if (mlx->map.real_map[tab[3]][tab[2]] == 'C')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, \
 				mlx->img_col, (tab[0] * 32), (tab[1] * 32));
 }
@@ -42,7 +42,6 @@ static void	init_tab(t_struct *mlx, int *tab, int val)
 		tab[1] = 0;
 		tab[2] = mlx->map.min_x;
 		tab[3] = mlx->map.min_y;
-		tab[4] = 0;
 	}
 	else if (val == 1)
 	{
@@ -61,7 +60,7 @@ static void	init_tab(t_struct *mlx, int *tab, int val)
 int	render_map(t_struct *mlx)
 {
 	char	*temp;
-	int		tab[5];
+	int		tab[4];
 
 	init_tab(mlx, tab, 0);
 	mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);

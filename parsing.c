@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 20:43:37 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 05:08:03 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 20:38:49 by atchougo         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,37 @@ void	check_if_wall_ok(char **map, int x_counter, int y_counter)
 	}
 }
 
-void	parsing(int argc, char **argv, t_struct *mlx)
+int	open_file(char **argv)
 {
 	int	fd;
-	int	sy;
 
-	check_arg_error(argc, argv);
+	fd = open (argv[1], O_DIRECTORY);
+	close(fd);
+	if (fd != -1)
+	{
+		ft_printf("Error\nFile \"%s\" is a directory.\n", argv[1]);
+		exit (1);
+	}
 	fd = open (argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		ft_printf("Error\nFile \"%s\" not found.\n", argv[1]);
 		exit (1);
 	}
+	return (fd);
+}
+
+void	parsing(int argc, char **argv, t_struct *mlx)
+{
+	int	fd;
+	int	sy;
+
+	check_arg_error(argc, argv);
+	fd = open_file(argv);
 	if (!is_map_size_ok(fd, &mlx->map.size_x, &mlx->map.size_y))
 		error_not_rectangle();
 	close (fd);
-	fd = open (argv[1], O_RDONLY);
+	fd = open_file(argv);
 	sy = mlx->map.size_y;
 	mlx->map.real_map = fill_map(fd, mlx->map.real_map, sy);
 	close (fd);
