@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:54:40 by atchougo          #+#    #+#             */
-/*   Updated: 2022/12/20 05:00:10 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/12/21 22:51:58 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	check_if_playable(t_struct *mlx, char **map, int x_cnt, int y_counter)
 	while (tab[1] || !tab[0])
 	{
 		route(mlx, temp, map, tab);
-		if (temp[tab[3]][tab[2]] == 'E')
+		if (temp[tab[3]][tab[2]] == 'E' || temp[tab[3]][tab[2]] == 'X')
 		{
 			init_tab(mlx, tab, temp, 2);
 			continue ;
