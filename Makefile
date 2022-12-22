@@ -40,7 +40,7 @@ CC = gcc
 C_FLAGS = -Wall -Wextra -Werror -I. -MD
 MLXCC = -Imlx -framework OpenGL -framework AppKit
 
-%.o: %.c $(HEADER_FILES) Makefile
+%.o: %.c $(HEADER_FILES)
 	$(CC) $(C_FLAGS) -c $< -o $@
 
 .PHONY: all
@@ -51,12 +51,12 @@ libs:
 	@$(MAKE) -C ./minilibx_opengl_20191021/
 	@$(MAKE) -C ./libft/
 
-$(NAME): $(OBJS) $(HEADER_FILES) Makefile
+$(NAME): $(OBJS) $(HEADER_FILES)
 	@$(CC) $(C_FLAGS) -c $(SRCS)
 	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(OBJS) $(LIBS)
 
 .PHONY: bonus
-bonus: $(BOBJS) $(INCL) libs Makefile
+bonus: $(BOBJS) $(INCL) libs
 	rm -f $(BOBJS)
 	@$(CC) $(C_FLAGS) -c $(BONUS)
 	@$(CC) $(C_FLAGS) $(MLXCC) -o $(NAME) $(BOBJS) $(LIBS)
